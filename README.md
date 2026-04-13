@@ -71,12 +71,16 @@ Note that you don't need it installed, since snips uses it as a Go library direc
 You have some options to configure fzf, all of which are optional.
 
 ```yaml
+sources: # omitted for brevity
+runners: # omitted for brevity
+
+# Based on https://github.com/junegunn/fzf
 # Displayed values are defaults.
-# Make sure you use {1} to get the absolute file to the path.
 fzf:
   # Whether to load fzf defaults ($FZF_DEFAULT_OPTS_FILE and $FZF_DEFAULT_OPTS).
   use_env: true
   # shell command to preview the file.
+  # Make sure you use {1} to get the absolute file to the path.
   preview: "cat {1}"
   # shell command for the 'focus:transform-preview-label' bind.
   # Set to an empty string to disable.

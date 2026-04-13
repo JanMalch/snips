@@ -2,6 +2,22 @@ sources:
   # relative paths are resolved relative to this config.yaml
   - ./bun
   - ./kotlin
+
+runners:
+  - ext: go
+    name: "go"
+    args: ["run", "{}"]
+  - ext: ts
+    name: bun
+  - ext: ts
+    name: deno
+  - exts: [".js", ".cjs", ".mjs"]
+    name: node
+  - ext: ".kts"
+    options:
+      - name: "kotlinc"
+        args: ["-script"]
+      - name: "kscript"
 fzf:
   # whether to load defaults ($FZF_DEFAULT_OPTS_FILE and $FZF_DEFAULT_OPTS)
   # use_env: true

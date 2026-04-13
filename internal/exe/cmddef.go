@@ -6,6 +6,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"slices"
+	"snips/internal/config"
 	"strings"
 )
 
@@ -16,6 +18,23 @@ type CmdDef struct {
 
 func NewCmdDef(name string, args ...string) CmdDef {
 	return CmdDef{Name: name, Args: args}
+}
+
+func CmdDefFromRunner(o config.SnipsRunner, snippet string) CmdDef {
+	args := make([]string, 0)
+	hasPath := false
+	for _, oa := range o.Args {
+		if oa == "{}" {
+			args = append(args, snippet)
+			hasPath = true
+		} else {
+			args = append(args, oa)
+		}
+	}
+	if !hasPath {
+		args = append(args, snippet)
+	}
+	return CmdDef{Name: o.Name, Args: args}
 }
 
 func (c CmdDef) String() string {
@@ -30,7 +49,7 @@ func (c CmdDef) Run() error {
 	return cmd.Run()
 }
 
-func DetermineCmds(path string) []CmdDef {
+func DetermineCmds(path string, runners []config.SnipsRunner) []CmdDef {
 	res := make([]CmdDef, 0)
 
 	// Infer from content first
@@ -62,34 +81,11 @@ func DetermineCmds(path string) []CmdDef {
 		}
 	}
 
-	// TODO: config file with preference or filters, e.g. ignored_runners = ["kscript"]
-	switch filepath.Ext(path) {
-	case ".sh":
-		res = append(res,
-			NewCmdDef("sh", path),
-		)
-	case ".kt", ".kts":
-		res = append(res,
-			NewCmdDef("kotlinc", "-script", path),
-			NewCmdDef("kscript", path),
-		)
-	case ".ts":
-		res = append(res,
-			NewCmdDef("deno", path),
-			NewCmdDef("bun", path),
-		)
-	case ".js", ".cjs", ".mjs":
-		res = append(res,
-			NewCmdDef("node", path),
-			NewCmdDef("deno", path),
-			NewCmdDef("bun", path),
-		)
-	case ".py":
-		res = append(res, NewCmdDef("python", path))
-	case ".go":
-		res = append(res, NewCmdDef("go", "run", path))
-	case ".lua":
-		res = append(res, NewCmdDef("lua", path))
+	fileext := filepath.Ext(path)
+	for _, r := range runners {
+		if r.Matches(fileext) {
+			res = append(res, CmdDefFromRunner(r, path))
+		}
 	}
 
 	return distinct(res)
@@ -116,4 +112,11 @@ func distinct(defs []CmdDef) []CmdDef {
 // Retrieved 2026-04-13, License - CC BY-SA 4.0
 func isExecAny(mode os.FileMode) bool {
 	return mode&0111 != 0
+}
+
+func ensurePathInArgs(s []string) []string {
+	if slices.Contains(s, "{}") {
+		return s
+	}
+	return append(s, "{}")
 }

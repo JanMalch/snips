@@ -40,7 +40,7 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 		return
 	}
 
-	cmds := exe.DetermineCmds(snippet)
+	cmds := exe.DetermineCmds(snippet, cfg.Runners)
 	if len(cmds) == 0 {
 		ctx.Fatalf("Failed to determine any appropriate command for %s", snippet)
 	}

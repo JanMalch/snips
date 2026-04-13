@@ -9,9 +9,10 @@ import (
 )
 
 var (
-	ErrNoSources         = errors.New("no sources defined")
-	ErrNoFileAtConfigEnv = errors.New("failed to find config file specified by SNIPS_CONFIG")
-	ErrNoFileAtDefault   = errors.New("failed to find config in default directory")
+	ErrNoSources          = errors.New("no sources defined")
+	ErrNoFileAtConfigEnv  = errors.New("failed to find config file specified by SNIPS_CONFIG")
+	ErrNoFileAtDefault    = errors.New("failed to find config in default directory")
+	ErrNoExtensionDefined = errors.New("no 'ext' or 'exts' defined for runner")
 )
 
 type SnipsFzfConfig struct {
@@ -21,8 +22,30 @@ type SnipsFzfConfig struct {
 	ListLabel    string `yaml:"list_label"`
 }
 
+type SnipsRunner struct {
+	Ext  string   `yaml:"ext"`
+	Exts []string `yaml:"exts"`
+	Name string   `yaml:"name"`
+	Args []string `yaml:"args"`
+}
+
+func (r SnipsRunner) Matches(fileext string) bool {
+	if r.Ext != "" {
+		if eqExt(r.Ext, fileext) {
+			return true
+		}
+	}
+	for _, ext := range r.Exts {
+		if eqExt(ext, fileext) {
+			return true
+		}
+	}
+	return false
+}
+
 type SnipsConfig struct {
 	Sources []string       `yaml:"sources"`
+	Runners []SnipsRunner  `yaml:"runners"`
 	Fzf     SnipsFzfConfig `yaml:"fzf"`
 }
 
@@ -65,5 +88,20 @@ func Load() (SnipsConfig, error) {
 			config.Sources[i] = filepath.Join(filepath.Dir(path), s)
 		}
 	}
+	for _, r := range config.Runners {
+		if r.Ext == "" && len(r.Exts) == 0 {
+			return SnipsConfig{}, ErrNoExtensionDefined
+		}
+	}
 	return config, err
+}
+
+func eqExt(actual, expected string) bool {
+	if actual == "" {
+		return false
+	}
+	if actual[0] == '.' {
+		return actual == expected
+	}
+	return ("." + actual) == expected
 }

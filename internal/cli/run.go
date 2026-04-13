@@ -50,10 +50,16 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 	for i, c := range cmds {
 		options[i] = huh.NewOption(c.String(), i)
 	}
+	actionTitle := "run"
+	if cli.Copy {
+		actionTitle = "copy"
+	} else if print {
+		actionTitle = "print"
+	}
 	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewSelect[int]().
-				Title("Pick a command to run.").
+				Title(fmt.Sprintf("Pick a command to %s.", actionTitle)).
 				Options(options...).
 				Value(&cmdIdx)),
 	).WithAccessible(os.Getenv("ACCESSIBLE") != "")

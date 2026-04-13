@@ -4,7 +4,7 @@
 branch = "main"
 
 [[update]]
-file = "cmd/root.go"
+file = "cmd/cli/main.go"
 find = "const VERSION = "
 replace = "const VERSION = \"{{version}}\""
 

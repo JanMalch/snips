@@ -1,0 +1,32 @@
+{
+    "name": "Snips Development Container",
+    "image": "mcr.microsoft.com/devcontainers/go",
+    "postCreateCommand": {
+        "xclip": "sudo apt update && sudo apt install -y bat xclip",
+        "bun": "npm i -g bun",
+        "deps": "go mod download"
+    },
+    "containerEnv": {
+        "SNIPS_CONFIG": "/workspaces/snips/_example/config.yaml"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "EditorConfig.EditorConfig"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "terminal.integrated.profiles.linux": {
+                    "zsh": {
+                        "path": "/bin/zsh"
+                    }
+                }
+            }
+        }
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "latest"
+        }
+    }
+}

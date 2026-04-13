@@ -1,0 +1,8 @@
+sources:
+  # relative paths are resolved relative to this config.yaml
+  - ./bun
+  - ./kotlin
+fzf:
+  # whether to load defaults ($FZF_DEFAULT_OPTS_FILE and $FZF_DEFAULT_OPTS)
+  # use_env: true
+  preview: "batcat --color=always --style=plain {1}"

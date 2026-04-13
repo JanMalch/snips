@@ -12,38 +12,38 @@ jobs:
       contents: write # allows the action to create a release
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
-          go-version: '1.24.x'
+          go-version: '1.25.x'
       - name: Install dependencies
         run: go mod download
       - name: Build Linux 64 bit executable
         env:
           GOOS: linux
           GOARCH: amd64
-        run: go build -o bin/snips-amd64-linux main.go 
+        run: go build -o bin/snips-amd64-linux cmd/cli/main.go 
       - name: Build Windows 64 bit executable
         env:
           GOOS: windows
           GOARCH: amd64
-        run: go build -o bin/snips-amd64.exe main.go 
+        run: go build -o bin/snips-amd64.exe cmd/cli/main.go 
       - name: Build Darwin AMD 64 bit executable
         env:
           GOOS: darwin
           GOARCH: amd64
-        run: go build -o bin/snips-amd64-darwin main.go 
+        run: go build -o bin/snips-amd64-darwin cmd/cli/main.go 
       - name: Build Darwin ARM 64 bit executable
         env:
           GOOS: darwin
           GOARCH: arm64
-        run: go build -o bin/snips-arm64-darwin main.go 
+        run: go build -o bin/snips-arm64-darwin cmd/cli/main.go 
       - name: Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         id: create_release
         with:
-          draft: true
+          draft: false
           prerelease: false
           files: |
             bin/snips-amd64-linux

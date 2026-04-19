@@ -1,3 +1,14 @@
+## [0.3.0](https://github.com/JanMalch/snips/tree/v0.3.0) - April 19, 2026
+
+**Full Changelog:** [`v0.2.0...v0.3.0`](https://github.com/JanMalch/snips/compare/v0.2.0...v0.3.0)
+
+| type | description | commit |
+|---|---|---|
+| feat | include source name for multiple sources | [`8bf32ffa`](https://github.com/JanMalch/snips/commit/8bf32ffaeef590f1103edf87e96b78dc32e03680) |
+| feat | add support for ~ home placeholder in sources | [`5c6e9e80`](https://github.com/JanMalch/snips/commit/5c6e9e80846f0a9df60c72abd7f705b5318b1f45) |
+
+
+
 ## [0.2.0](https://github.com/JanMalch/snips/tree/v0.2.0) - April 13, 2026
 
 **Full Changelog:** [`v0.1.0...v0.2.0`](https://github.com/JanMalch/snips/compare/v0.1.0...v0.2.0)

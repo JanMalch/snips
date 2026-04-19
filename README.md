@@ -21,7 +21,10 @@ These will be searched when running the snips CLI.
 sources:
   - ./relative/
   - /absolute/
+  - ~/snippets/
 ```
+
+> `~` will be replaced with the [user home dir](https://pkg.go.dev/os#UserHomeDir) of your platform.
 
 ### Runners
 

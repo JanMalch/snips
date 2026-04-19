@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/goccy/go-yaml"
 )
@@ -84,7 +85,17 @@ func Load() (SnipsConfig, error) {
 		return SnipsConfig{}, err
 	}
 	for i, s := range config.Sources {
-		if !filepath.IsAbs(s) {
+		if s[0] == '~' {
+			home, err := os.UserHomeDir()
+			if err != nil {
+				return SnipsConfig{}, err
+			}
+			abs, err := filepath.Abs(strings.ReplaceAll(s, "~", home))
+			if err != nil {
+				return SnipsConfig{}, err
+			}
+			config.Sources[i] = abs
+		} else if !filepath.IsAbs(s) {
 			config.Sources[i] = filepath.Join(filepath.Dir(path), s)
 		}
 	}

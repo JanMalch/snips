@@ -19,12 +19,13 @@ var (
 	ErrNoFzfOutput    = errors.New("fzf returned no output")
 )
 
-func FindSnippet(query string, dirs []string, cfg config.SnipsFzfConfig) (string, error) {
+func FindSnippet(query string, dirs []string, includeSourceName bool, cfg config.SnipsFzfConfig) (string, error) {
 	if len(dirs) == 0 {
 		return "", ErrNoSources
 	}
 
 	matches := make([]string, 0)
+	useDirPrefix := includeSourceName && len(dirs) > 1
 
 	for _, dir := range dirs {
 
@@ -46,6 +47,9 @@ func FindSnippet(query string, dirs []string, cfg config.SnipsFzfConfig) (string
 				rels, err := filepath.Rel(dir, s)
 				if err != nil {
 					return "", err
+				}
+				if useDirPrefix {
+					rels = filepath.Join(filepath.Base(dir), rels)
 				}
 				matches = append(matches, s+unitSep+rels)
 			}

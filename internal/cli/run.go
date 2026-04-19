@@ -20,7 +20,7 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 		print = *cli.Print
 	}
 
-	snippet, err := core.FindSnippet(cli.Snippet, dirs, cfg.Fzf)
+	snippet, err := core.FindSnippet(cli.Snippet, dirs, cfg.IncludeSourceName, cfg.Fzf)
 	ctx.FatalIfErrorf(err)
 
 	if cli.Locate {

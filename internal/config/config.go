@@ -45,9 +45,10 @@ func (r SnipsRunner) Matches(fileext string) bool {
 }
 
 type SnipsConfig struct {
-	Sources []string       `yaml:"sources"`
-	Runners []SnipsRunner  `yaml:"runners"`
-	Fzf     SnipsFzfConfig `yaml:"fzf"`
+	Sources           []string       `yaml:"sources"`
+	IncludeSourceName bool           `yaml:"include_source_name"`
+	Runners           []SnipsRunner  `yaml:"runners"`
+	Fzf               SnipsFzfConfig `yaml:"fzf"`
 }
 
 func Load() (SnipsConfig, error) {
@@ -74,6 +75,7 @@ func Load() (SnipsConfig, error) {
 	}
 
 	config := SnipsConfig{
+		IncludeSourceName: true,
 		Fzf: SnipsFzfConfig{
 			Preview:      "cat {1}",
 			UseEnv:       true,

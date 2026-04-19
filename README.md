@@ -22,6 +22,8 @@ sources:
   - ./relative/
   - /absolute/
   - ~/snippets/
+# Include the name of the directory, when multiple sources are being used. Defaults to true.
+include_source_name: true
 ```
 
 > `~` will be replaced with the [user home dir](https://pkg.go.dev/os#UserHomeDir) of your platform.

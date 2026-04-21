@@ -1,6 +1,8 @@
 # snips
 
-_CLI to help with snippets and scripts._
+A simple CLI to help with snippets and scripts.
+
+[![asciicast](.github/demo.thumbnail.svg)](https://asciinema.org/a/G8Ehjhjo4dICxlYe)
 
 ## Installation
 

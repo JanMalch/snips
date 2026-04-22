@@ -13,7 +13,7 @@ func main() {
 	var app cli.CLI
 	ctx := kong.Parse(&app,
 		kong.Name("snips"),
-		kong.Description(`CLI to manage and run scripts of any language.
+		kong.Description(`CLI to help with snippets and scripts.
 
 Examples:
   snips foo		Searches a snippet by path, then prints the file's content.

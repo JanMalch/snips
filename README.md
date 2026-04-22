@@ -106,8 +106,7 @@ Feel free to customize, e.g. with [`bat`](https://github.com/sharkdp/bat) for th
 
 ## Sources
 
-Optionally, you can put a `snips.yaml` in the root of each directory,
-which you defined in [the `sources` above](#configuration).
+Optionally, you can put a `snips.yaml` in each directory defined under [`sources`](#configuration).
 It allows you to configure which files to actually consider as snippets and scripts.
 
 ```yaml
@@ -134,3 +133,44 @@ When invoked with the `--exec/-x` flag, it will try to run the file instead.
 Run `snips -h` for more details and complimentary actions.
 
 > For ad-hoc usage, you can run `snips -w` to use the current working directory as a source.
+
+### Help
+
+```bash
+$ snips --help
+Usage: snips [<snippet>] [flags]
+
+CLI to help with snippets and scripts.
+
+Examples:
+
+    snips foo           Searches a snippet by path, then prints the file's content.
+    snips -c foo        Searches a snippet by path, then prints and copies the file's content.
+    snips -x foo        Searches a snippet by path, then executes the selected command.       
+    snips -xc foo       Searches a snippet by path, then copies the selected command.
+    snips -xp foo       Searches a snippet by path, then prints the selected command.
+
+Arguments:
+  [<snippet>]    Optional initial query for the snippet path, or content when
+                 using --grep/-g. The query is optional. When only one snippet
+                 matches, it is selected automatically.
+
+Flags:
+  -h, --help             Show context-sensitive help.
+  -x, --exec             Execute the selected snippet after confirmation.
+                         Defaults to false.
+  -c, --copy             Copies the selected snippet to the system clipboard. In
+                         --exec mode it copies the command instead of executing
+                         it. Defaults to false.
+  -p, --[no-]print       Prints the selected snippet, and defaults to true. In
+                         --exec mode, it prints the command instead of executing
+                         it, and defaults to false.
+  -l, --locate           Only print the full absolute path of the selected
+                         snippet before exiting.
+  -w, --here             Use the current working directory as the only source.
+                         Defaults to false.
+  -s, --source=SOURCE    Select a source by index from your global snips config
+                         file. You can also use -0 to -9.
+  -v, --version          Print version information and quit
+      --updates          Checks for updates for the snips CLI. Same as --up.
+```

@@ -1,3 +1,15 @@
+## [0.4.0](https://github.com/JanMalch/snips/tree/v0.4.0) - April 26, 2026
+
+**Full Changelog:** [`v0.3.0...v0.4.0`](https://github.com/JanMalch/snips/compare/v0.3.0...v0.4.0)
+
+| type | description | commit |
+|---|---|---|
+| feat | edit snippets or config with new flag | [`d69b4e68`](https://github.com/JanMalch/snips/commit/d69b4e68ca67b85d0ab4ded11aa458e4a801576b) |
+| feat | print or locate config with new flag | [`b125169a`](https://github.com/JanMalch/snips/commit/b125169a8c6ba7896d79060e96e87138140b778a) |
+| feat | update purpose in help text | [`a8ba8384`](https://github.com/JanMalch/snips/commit/a8ba8384b3ec04a5eb32302d8195961559aaa0cf) |
+
+
+
 ## [0.3.0](https://github.com/JanMalch/snips/tree/v0.3.0) - April 19, 2026
 
 **Full Changelog:** [`v0.2.0...v0.3.0`](https://github.com/JanMalch/snips/compare/v0.2.0...v0.3.0)

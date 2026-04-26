@@ -1,8 +1,10 @@
 package cli
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"os/exec"
 	"snips/internal/config"
 	"snips/internal/core"
 	"snips/internal/exe"
@@ -12,12 +14,20 @@ import (
 	"github.com/atotto/clipboard"
 )
 
+var (
+	ErrNoEditor = errors.New("no EDITOR env var defined")
+)
+
 func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 	if cli.Config {
 		path, err := config.Path()
 		ctx.FatalIfErrorf(err)
 		if cli.Locate {
 			fmt.Fprintln(ctx.Stdout, path)
+			return
+		}
+		if cli.Edit {
+			ctx.FatalIfErrorf(edit(path))
 			return
 		}
 		dat, err := os.ReadFile(path)
@@ -38,6 +48,10 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 
 	if cli.Locate {
 		fmt.Fprintln(ctx.Stdout, snippet)
+		return
+	}
+	if cli.Edit {
+		ctx.FatalIfErrorf(edit(snippet))
 		return
 	}
 
@@ -91,4 +105,16 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 	} else {
 		ctx.FatalIfErrorf(cmd.Run())
 	}
+}
+
+func edit(path string) error {
+	editor := os.Getenv("EDITOR")
+	if editor == "" {
+		return ErrNoEditor
+	}
+	cmd := exec.Command(editor, path)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
 }

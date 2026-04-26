@@ -7,7 +7,8 @@
         "deps": "go mod download"
     },
     "containerEnv": {
-        "SNIPS_CONFIG": "/workspaces/snips/_example/config.yaml"
+        "SNIPS_CONFIG": "/workspaces/snips/_example/config.yaml",
+        "EDITOR": "nano"
     },
     "customizations": {
         "vscode": {

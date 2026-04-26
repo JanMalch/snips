@@ -11,8 +11,6 @@ import (
 
 var (
 	ErrNoSources          = errors.New("no sources defined")
-	ErrNoFileAtConfigEnv  = errors.New("failed to find config file specified by SNIPS_CONFIG")
-	ErrNoFileAtDefault    = errors.New("failed to find config in default directory")
 	ErrNoExtensionDefined = errors.New("no 'ext' or 'exts' defined for runner")
 )
 
@@ -51,26 +49,26 @@ type SnipsConfig struct {
 	Fzf               SnipsFzfConfig `yaml:"fzf"`
 }
 
-func Load() (SnipsConfig, error) {
+// Returns the path of the config
+func Path() (string, error) {
 	path := os.Getenv("SNIPS_CONFIG")
-	usesExplicitConfig := path != ""
 	if path == "" {
 		cfg, err := os.UserConfigDir()
 		if err != nil {
-			return SnipsConfig{}, err
+			return "", err
 		}
 		path = filepath.Join(cfg, "snips", "config.yaml")
 	}
+	return path, nil
+}
 
+func Load() (SnipsConfig, error) {
+	path, err := Path()
+	if err != nil {
+		return SnipsConfig{}, err
+	}
 	dat, err := os.ReadFile(path)
 	if err != nil {
-		if os.IsNotExist(err) {
-			if usesExplicitConfig {
-				return SnipsConfig{}, ErrNoFileAtConfigEnv
-			} else {
-				return SnipsConfig{}, ErrNoFileAtDefault
-			}
-		}
 		return SnipsConfig{}, err
 	}
 

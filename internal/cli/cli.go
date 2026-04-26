@@ -33,6 +33,7 @@ type CLI struct {
 	// Grep    bool   `name:"grep" default:"false" short:"g" help:"Grep on snippet contents instead. Requires ripgrep, grep or git."`
 	// Typ     string `name:"type" short:"t" help:"Filter by a ripgrep file type. Requires ripgrep."`
 	// Edit    bool   `name:"edit" default:"false" short:"e" help:"Open the selected snippet with the editor defined by the EDITOR environment variable. Defaults to false."`
+	Config bool `name:"config" default:"false" help:"Print snips config. Works with --locate/-l and --edit/-e."`
 	// Color never,always,auto
 	Source *int `name:"source" short:"s" help:"Select a source by index from your global snips config file. You can also use -0 to -9."`
 	// TODO: there must be a better way, right?

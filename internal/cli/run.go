@@ -13,6 +13,19 @@ import (
 )
 
 func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
+	if cli.Config {
+		path, err := config.Path()
+		ctx.FatalIfErrorf(err)
+		if cli.Locate {
+			fmt.Fprintln(ctx.Stdout, path)
+			return
+		}
+		dat, err := os.ReadFile(path)
+		ctx.FatalIfErrorf(err)
+		fmt.Fprintln(ctx.Stdout, string(dat))
+		return
+	}
+
 	dirs := cli.Sources(cfg)
 
 	print := !cli.Exec

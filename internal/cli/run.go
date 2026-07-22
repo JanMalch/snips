@@ -43,8 +43,16 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 		print = *cli.Print
 	}
 
-	snippet, err := core.FindSnippet(cli.Snippet, dirs, cfg.IncludeSourceName, cfg.Fzf)
-	ctx.FatalIfErrorf(err)
+	var snippet string
+	var err error
+	if cli.Repeat {
+		snippet, err = readRepeat()
+		ctx.FatalIfErrorf(err)
+	} else {
+		snippet, err = core.FindSnippet(cli.Snippet, dirs, cfg.IncludeSourceName, cfg.Fzf)
+		ctx.FatalIfErrorf(err)
+		ctx.FatalIfErrorf(storeRepeat(snippet))
+	}
 
 	if cli.Locate {
 		fmt.Fprintln(ctx.Stdout, snippet)
@@ -117,4 +125,24 @@ func edit(path string) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	return cmd.Run()
+}
+
+func storeRepeat(snippetPath string) error {
+	path, err := config.HistoryPath()
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(path, []byte(snippetPath), 0644)
+}
+
+func readRepeat() (string, error) {
+	path, err := config.HistoryPath()
+	if err != nil {
+		return "", err
+	}
+	dat, err := os.ReadFile(path)
+	if err != nil {
+		return "", err
+	}
+	return string(dat), nil
 }

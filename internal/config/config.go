@@ -62,6 +62,15 @@ func Path() (string, error) {
 	return path, nil
 }
 
+// Returns the path where the file is stored, which keeps the snippet history.
+func HistoryPath() (string, error) {
+	path, err := Path()
+	if err != nil {
+		return "", err
+	}
+	return filepath.Join(filepath.Dir(path), ".snipshistory"), nil
+}
+
 func Load() (SnipsConfig, error) {
 	path, err := Path()
 	if err != nil {

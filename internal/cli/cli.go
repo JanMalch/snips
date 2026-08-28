@@ -69,7 +69,8 @@ type CLI struct {
 	Config bool `name:"config" default:"false" help:"Print snips config. Works with --locate/-l and --edit/-e."`
 	Repeat bool `name:"repeat" default:"false" short:"r" help:"Repeat the last snippet that was selected. Works with --exec/-x, --print/p, --locate/-l and --edit/-e."`
 	// Color never,always,auto
-	Source *int `name:"source" short:"s" help:"Select a source by index from your global snips config file. You can also use -0 to -9."`
+	ListSources bool `name:"sources" short:"S" help:"Print all configured sources with their --source flag shorthand."`
+	Source      *int `name:"source" short:"s" help:"Select a source by index from your global snips config file. You can also use -0 to -9."`
 	// TODO: there must be a better way, right?
 	Source0         bool        `short:"0" default:"false" hidden:""`
 	Source1         bool        `short:"1" default:"false" hidden:""`

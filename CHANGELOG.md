@@ -1,3 +1,22 @@
+## [0.5.0](https://github.com/JanMalch/snips/tree/v0.5.0) - August 28, 2026
+
+**Full Changelog:** [`v0.4.0...v0.5.0`](https://github.com/JanMalch/snips/compare/v0.4.0...v0.5.0)
+
+### Breaking Changes
+
+- replace here flag with more flexible use flag
+
+---
+
+| type | description | commit |
+|---|---|---|
+| feat | introduce flag to list sources | [`5c9ae268`](https://github.com/JanMalch/snips/commit/5c9ae2681edc25841205fe2042b6a6c12dc3ed88) |
+| feat | replace here flag with more flexible use flag | [`a815a414`](https://github.com/JanMalch/snips/commit/a815a414f3e6fa3b8a6967c8fdf581789eb9c8c5) |
+| feat | introduce passthrough arguments | [`130645b1`](https://github.com/JanMalch/snips/commit/130645b111bcbf4a042cf1e4a36b3bf7561b16e0) |
+| feat | introduce repeat flag | [`735dd580`](https://github.com/JanMalch/snips/commit/735dd580a8de6c433a68ec1c6806e3b0a60d342b) |
+
+
+
 ## [0.4.0](https://github.com/JanMalch/snips/tree/v0.4.0) - April 26, 2026
 
 **Full Changelog:** [`v0.3.0...v0.4.0`](https://github.com/JanMalch/snips/compare/v0.3.0...v0.4.0)

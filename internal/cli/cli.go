@@ -3,6 +3,7 @@ package cli
 import (
 	"errors"
 	"fmt"
+	"path"
 	"snips/internal/config"
 
 	"github.com/alecthomas/kong"
@@ -59,8 +60,8 @@ type CLI struct {
 	Copy  bool  `name:"copy" default:"false" short:"c" help:"Copies the selected snippet to the system clipboard. In --exec mode it copies the command instead of executing it. Defaults to false."`
 	Print *bool `name:"print" short:"p" negatable:"" help:"Prints the selected snippet, and defaults to true. In --exec mode, it prints the command instead of executing it, and defaults to false."`
 	// TODO: Locate & Here: improve names and shorts?
-	Locate bool `name:"locate" default:"false" short:"l" help:"Only print the full absolute path of the selected snippet before exiting."`
-	Here   bool `name:"here" default:"false" short:"w" help:"Use the current working directory as the only source. Defaults to false."`
+	Locate bool   `name:"locate" default:"false" short:"l" help:"Only print the full absolute path of the selected snippet before exiting."`
+	Use    string `name:"use" short:"u" help:"Use the given working directory as the only source, or '-u.' for the current directory."`
 	// TODO
 	// Grep    bool   `name:"grep" default:"false" short:"g" help:"Grep on snippet contents instead. Requires ripgrep, grep or git."`
 	// Typ     string `name:"type" short:"t" help:"Filter by a ripgrep file type. Requires ripgrep."`
@@ -85,8 +86,8 @@ type CLI struct {
 }
 
 func (c *CLI) Sources(cfg config.SnipsConfig) []string {
-	if c.Here {
-		return []string{"."}
+	if c.Use != "" {
+		return []string{path.Clean(c.Use)}
 	}
 
 	dirs := cfg.Sources

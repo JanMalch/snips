@@ -20,7 +20,7 @@ func NewCmdDef(name string, args ...string) CmdDef {
 	return CmdDef{Name: name, Args: args}
 }
 
-func CmdDefFromRunner(o config.SnipsRunner, snippet string) CmdDef {
+func CmdDefFromRunner(o config.SnipsRunner, snippet string, passthrough []string) CmdDef {
 	args := make([]string, 0)
 	hasPath := false
 	for _, oa := range o.Args {
@@ -34,6 +34,7 @@ func CmdDefFromRunner(o config.SnipsRunner, snippet string) CmdDef {
 	if !hasPath {
 		args = append(args, snippet)
 	}
+	args = append(args, passthrough...)
 	return CmdDef{Name: o.Name, Args: args}
 }
 
@@ -49,7 +50,7 @@ func (c CmdDef) Run() error {
 	return cmd.Run()
 }
 
-func DetermineCmds(path string, runners []config.SnipsRunner) []CmdDef {
+func DetermineCmds(path string, runners []config.SnipsRunner, passthrough []string) []CmdDef {
 	res := make([]CmdDef, 0)
 
 	// Infer from content first
@@ -65,7 +66,7 @@ func DetermineCmds(path string, runners []config.SnipsRunner) []CmdDef {
 		if strings.HasPrefix(first, "#!") {
 			if runtime.GOOS != "windows" {
 				if s, _ := os.Stat(path); isExecAny(s.Mode()) {
-					res = append(res, NewCmdDef(path))
+					res = append(res, NewCmdDef(path, passthrough...))
 				}
 			}
 			// Extract from shebang
@@ -73,10 +74,10 @@ func DetermineCmds(path string, runners []config.SnipsRunner) []CmdDef {
 				rem := strings.Split(first[15:], " ")
 				if len(rem) > 0 {
 					rem = append(rem, path)
-					res = append(res, NewCmdDef(rem[0], rem[1:]...))
+					res = append(res, NewCmdDef(rem[0], append(rem[1:], passthrough...)...))
 				}
 			} else if first == "#!/bin/sh" || strings.HasPrefix(first, "#!/bin/sh ") {
-				res = append(res, NewCmdDef("sh", path))
+				res = append(res, NewCmdDef("sh", append([]string{path}, passthrough...)...))
 			}
 		}
 	}
@@ -84,7 +85,7 @@ func DetermineCmds(path string, runners []config.SnipsRunner) []CmdDef {
 	fileext := filepath.Ext(path)
 	for _, r := range runners {
 		if r.Matches(fileext) {
-			res = append(res, CmdDefFromRunner(r, path))
+			res = append(res, CmdDefFromRunner(r, path, passthrough))
 		}
 	}
 

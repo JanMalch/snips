@@ -1,10 +1,15 @@
 package cli
 
 import (
+	"errors"
 	"fmt"
 	"snips/internal/config"
 
 	"github.com/alecthomas/kong"
+)
+
+var (
+	ErrNoArgSeparator = errors.New("missing argument separator --")
 )
 
 // https://danielms.site/zet/2024/how-i-write-golang-cli-tools-today-using-kong/
@@ -18,11 +23,38 @@ func (v versionFlag) BeforeApply(app *kong.Kong, vars kong.Vars) error {
 	return nil
 }
 
+type snipsArgs []string
+
+func (s snipsArgs) Validate() error {
+	l := len(s)
+	if l <= 1 {
+		return nil
+	}
+	if s[1] != "--" {
+		return ErrNoArgSeparator
+	}
+	return nil
+}
+
+func (s snipsArgs) Snippet() string {
+	if len(s) == 0 {
+		return ""
+	}
+	return s[0]
+}
+
+func (s snipsArgs) Passthrough() []string {
+	if len(s) < 2 {
+		return []string{}
+	}
+	return s[2:]
+}
+
 // TODO: https://github.com/alecthomas/kong?tab=readme-ov-file#configurationloader-paths---load-defaults-from-configuration-files ?
 
 type CLI struct {
-	Snippet string `arg:"" optional:"" name:"snippet" help:"Optional initial query for the snippet path, or content when using --grep/-g. The query is optional. When only one snippet matches, it is selected automatically."`
-	Exec    bool   `name:"exec" default:"false" short:"x" help:"Execute the selected snippet after confirmation. Defaults to false."`
+	Args snipsArgs `arg:"" passthrough:"all" optional:"" name:"snippet" help:"Optional initial query for the snippet path, or content when using --grep/-g. The query is optional. When only one snippet matches, it is selected automatically."`
+	Exec bool      `name:"exec" default:"false" short:"x" help:"Execute the selected snippet after confirmation. Defaults to false."`
 	// TODO: use env default?
 	Copy  bool  `name:"copy" default:"false" short:"c" help:"Copies the selected snippet to the system clipboard. In --exec mode it copies the command instead of executing it. Defaults to false."`
 	Print *bool `name:"print" short:"p" negatable:"" help:"Prints the selected snippet, and defaults to true. In --exec mode, it prints the command instead of executing it, and defaults to false."`

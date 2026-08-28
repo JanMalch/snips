@@ -49,7 +49,7 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 		snippet, err = readRepeat()
 		ctx.FatalIfErrorf(err)
 	} else {
-		snippet, err = core.FindSnippet(cli.Snippet, dirs, cfg.IncludeSourceName, cfg.Fzf)
+		snippet, err = core.FindSnippet(cli.Args.Snippet(), dirs, cfg.IncludeSourceName, cfg.Fzf)
 		ctx.FatalIfErrorf(err)
 		ctx.FatalIfErrorf(storeRepeat(snippet))
 	}
@@ -75,7 +75,7 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 		return
 	}
 
-	cmds := exe.DetermineCmds(snippet, cfg.Runners)
+	cmds := exe.DetermineCmds(snippet, cfg.Runners, cli.Args.Passthrough())
 	if len(cmds) == 0 {
 		ctx.Fatalf("Failed to determine any appropriate command for %s", snippet)
 	}

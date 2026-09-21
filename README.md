@@ -136,41 +136,36 @@ Run `snips -h` for more details and complimentary actions.
 
 ### Help
 
-```bash
+```text
 $ snips --help
-Usage: snips [<snippet>] [flags]
+Usage: snips [flags] [<snippet>] [-- <snippet-args> ...]
 
 CLI to help with snippets and scripts.
 
 Examples:
 
-    snips foo           Searches a snippet by path, then prints the file's content.
-    snips -c foo        Searches a snippet by path, then prints and copies the file's content.
-    snips -x foo        Searches a snippet by path, then executes the selected command.       
-    snips -xc foo       Searches a snippet by path, then copies the selected command.
-    snips -xp foo       Searches a snippet by path, then prints the selected command.
+    snips foo                   Searches a snippet by path, then prints the file's content.
+    snips -c foo                Searches a snippet by path, then prints and copies the file's content.
+    snips -x foo                Searches a snippet by path, then executes the selected command.
+    snips -xc foo               Searches a snippet by path, then copies the selected command.
+    snips -xp foo               Searches a snippet by path, then prints the selected command.
+    snips -x foo -- hello       Searches a snippet by path, then executes the selected command, passing "hello" as an argument.
 
 Arguments:
-  [<snippet>]    Optional initial query for the snippet path, or content when
-                 using --grep/-g. The query is optional. When only one snippet
-                 matches, it is selected automatically.
+  [<snippet>]    Optional initial query for the snippet path, or content when using --grep/-g. The query is optional. When only one snippet matches, it is selected automatically.
 
 Flags:
   -h, --help             Show context-sensitive help.
-  -x, --exec             Execute the selected snippet after confirmation.
-                         Defaults to false.
-  -c, --copy             Copies the selected snippet to the system clipboard. In
-                         --exec mode it copies the command instead of executing
-                         it. Defaults to false.
-  -p, --[no-]print       Prints the selected snippet, and defaults to true. In
-                         --exec mode, it prints the command instead of executing
-                         it, and defaults to false.
-  -l, --locate           Only print the full absolute path of the selected
-                         snippet before exiting.
-  -w, --here             Use the current working directory as the only source.
-                         Defaults to false.
-  -s, --source=SOURCE    Select a source by index from your global snips config
-                         file. You can also use -0 to -9.
+  -x, --exec             Execute the selected snippet after confirmation. Defaults to false.
+  -c, --copy             Copies the selected snippet to the system clipboard. In --exec mode it copies the command instead of executing it. Defaults to false.
+  -p, --[no-]print       Prints the selected snippet, and defaults to true. In --exec mode, it prints the command instead of executing it, and defaults to false.
+  -l, --locate           Only print the full absolute path of the selected snippet before exiting.
+  -u, --use=STRING       Use the given working directory as the only source, or '-u.' for the current directory.
+  -e, --edit             Open the selected snippet with the editor defined by the EDITOR environment variable. Defaults to false.
+      --config           Print snips config. Works with --locate/-l and --edit/-e.
+  -r, --repeat           Repeat the last snippet that was selected. Works with --exec/-x, --print/p, --locate/-l and --edit/-e.
+  -S, --sources          Print all configured sources with their --source flag shorthand.
+  -s, --source=SOURCE    Select a source by index from your global snips config file. You can also use -0 to -9.
   -v, --version          Print version information and quit
       --updates          Checks for updates for the snips CLI. Same as --up.
 ```

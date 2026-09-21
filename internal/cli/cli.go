@@ -54,7 +54,7 @@ func (s snipsArgs) Passthrough() []string {
 // TODO: https://github.com/alecthomas/kong?tab=readme-ov-file#configurationloader-paths---load-defaults-from-configuration-files ?
 
 type CLI struct {
-	Args snipsArgs `arg:"" passthrough:"all" optional:"" name:"snippet" help:"Optional initial query for the snippet path, or content when using --grep/-g. The query is optional. When only one snippet matches, it is selected automatically."`
+	Args snipsArgs `arg:"" passthrough:"all" optional:"" name:"snippet" help:"Optional initial query for the snippet path. When only one snippet matches, it is selected automatically."`
 	Exec bool      `name:"exec" default:"false" short:"x" help:"Execute the selected snippet after confirmation. Defaults to false."`
 	// TODO: use env default?
 	Copy  bool  `name:"copy" default:"false" short:"c" help:"Copies the selected snippet to the system clipboard. In --exec mode it copies the command instead of executing it. Defaults to false."`

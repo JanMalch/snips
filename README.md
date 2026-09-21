@@ -152,7 +152,7 @@ Examples:
     snips -x foo -- hello       Searches a snippet by path, then executes the selected command, passing "hello" as an argument.
 
 Arguments:
-  [<snippet>]    Optional initial query for the snippet path, or content when using --grep/-g. The query is optional. When only one snippet matches, it is selected automatically.
+  [<snippet>]    Optional initial query for the snippet path. When only one snippet matches, it is selected automatically.
 
 Flags:
   -h, --help             Show context-sensitive help.

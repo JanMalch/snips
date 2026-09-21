@@ -1,3 +1,15 @@
+## [0.6.0](https://github.com/JanMalch/snips/tree/v0.6.0) - September 21, 2026
+
+**Full Changelog:** [`v0.5.0...v0.6.0`](https://github.com/JanMalch/snips/compare/v0.5.0...v0.6.0)
+
+| type | description | commit |
+|---|---|---|
+| feat | introduce autopick strategies in config | [`0533be5d`](https://github.com/JanMalch/snips/commit/0533be5dbbe50858c30216c525093ec93f2884b6) |
+| feat | introduce autopick flag for exec mode | [`6607e105`](https://github.com/JanMalch/snips/commit/6607e1052551f17fe3de594d19f5de7bcc87fc9b) |
+| fix | remove references to non-existent grep functionality | [`8aa113d0`](https://github.com/JanMalch/snips/commit/8aa113d098398fede40c7f6e0e33548d670cd261) |
+
+
+
 ## [0.5.0](https://github.com/JanMalch/snips/tree/v0.5.0) - August 28, 2026
 
 **Full Changelog:** [`v0.4.0...v0.5.0`](https://github.com/JanMalch/snips/compare/v0.4.0...v0.5.0)

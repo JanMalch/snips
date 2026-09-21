@@ -50,7 +50,7 @@ func (c CmdDef) Run() error {
 	return cmd.Run()
 }
 
-func DetermineCmds(path string, runners []config.SnipsRunner, passthrough []string) []CmdDef {
+func DetermineCmds(path string, runners []config.SnipsRunner, passthrough []string, autopick bool) []CmdDef {
 	res := make([]CmdDef, 0)
 
 	// Infer from content first
@@ -67,6 +67,9 @@ func DetermineCmds(path string, runners []config.SnipsRunner, passthrough []stri
 			if runtime.GOOS != "windows" {
 				if s, _ := os.Stat(path); isExecAny(s.Mode()) {
 					res = append(res, NewCmdDef(path, passthrough...))
+					if autopick {
+						return res
+					}
 				}
 			}
 			// Extract from shebang
@@ -79,6 +82,9 @@ func DetermineCmds(path string, runners []config.SnipsRunner, passthrough []stri
 			} else if first == "#!/bin/sh" || strings.HasPrefix(first, "#!/bin/sh ") {
 				res = append(res, NewCmdDef("sh", append([]string{path}, passthrough...)...))
 			}
+			if autopick {
+				return res
+			}
 		}
 	}
 
@@ -86,6 +92,9 @@ func DetermineCmds(path string, runners []config.SnipsRunner, passthrough []stri
 	for _, r := range runners {
 		if r.Matches(fileext) {
 			res = append(res, CmdDefFromRunner(r, path, passthrough))
+			if autopick {
+				return res
+			}
 		}
 	}
 

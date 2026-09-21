@@ -19,6 +19,9 @@ var (
 )
 
 func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
+	if cli.Autopick && !cli.Exec {
+		ctx.Fatalf("--autopick/-a only works with --exec/-x")
+	}
 	if cli.Config {
 		path, err := config.Path()
 		ctx.FatalIfErrorf(err)
@@ -90,10 +93,31 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 		return
 	}
 
-	cmds := exe.DetermineCmds(snippet, cfg.Runners, cli.Args.Passthrough())
+	cmds := exe.DetermineCmds(snippet, cfg.Runners, cli.Args.Passthrough(), cli.Autopick)
 	if len(cmds) == 0 {
 		ctx.Fatalf("Failed to determine any appropriate command for %s", snippet)
 	}
+
+	var cmd exe.CmdDef
+	if cli.Autopick {
+		cmd = cmds[0]
+	} else {
+		cmd = prompt(cmds, print, cli, ctx)
+	}
+
+	if print || cli.Copy {
+		if print {
+			fmt.Fprintln(ctx.Stdout, cmd.String())
+		}
+		if cli.Copy {
+			ctx.FatalIfErrorf(clipboard.WriteAll(cmd.String()))
+		}
+	} else {
+		ctx.FatalIfErrorf(cmd.Run())
+	}
+}
+
+func prompt(cmds []exe.CmdDef, print bool, cli *CLI, ctx *kong.Context) exe.CmdDef {
 
 	cmdIdx := -1
 	options := make([]huh.Option[int], len(cmds))
@@ -115,19 +139,7 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 	).WithAccessible(os.Getenv("ACCESSIBLE") != "")
 
 	ctx.FatalIfErrorf(form.Run())
-
-	cmd := cmds[cmdIdx]
-
-	if print || cli.Copy {
-		if print {
-			fmt.Fprintln(ctx.Stdout, cmd.String())
-		}
-		if cli.Copy {
-			ctx.FatalIfErrorf(clipboard.WriteAll(cmd.String()))
-		}
-	} else {
-		ctx.FatalIfErrorf(cmd.Run())
-	}
+	return cmds[cmdIdx]
 }
 
 func edit(path string) error {

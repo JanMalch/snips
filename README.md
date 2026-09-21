@@ -36,7 +36,7 @@ Runners allow you to define custom commands based on the file extensions of your
 Out of the box, snips doesn't define any and only parses shebangs.
 **snips will not check for availability of the runners.**
 
-> snips will always show runners based on a shebang at the top.
+> snips will always show the runner from a shebang first, then user-defined runners.
 
 Here is an example configuration to get you started.
 Add this to your `config.yaml`, right next to your `sources`.
@@ -164,6 +164,7 @@ Flags:
   -e, --edit             Open the selected snippet with the editor defined by the EDITOR environment variable. Defaults to false.
       --config           Print snips config. Works with --locate/-l and --edit/-e.
   -r, --repeat           Repeat the last snippet that was selected. Works with --exec/-x, --print/p, --locate/-l and --edit/-e.
+  -a, --autopick         Automatically pick the first command option when using --exec/-x. Executables come first, then shebang, then runners. Defaults to false.
   -S, --sources          Print all configured sources with their --source flag shorthand.
   -s, --source=SOURCE    Select a source by index from your global snips config file. You can also use -0 to -9.
   -v, --version          Print version information and quit

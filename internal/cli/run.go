@@ -93,7 +93,14 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 		return
 	}
 
-	cmds := exe.DetermineCmds(snippet, cfg.Runners, cli.Args.Passthrough(), cli.Autopick)
+	autopick := config.AutopickNever
+	if cli.Autopick {
+		autopick = config.AutopickAlways
+	} else {
+		autopick, err = cfg.Autopick()
+		ctx.FatalIfErrorf(err)
+	}
+	cmds := exe.DetermineCmds(snippet, cfg.Runners, cli.Args.Passthrough(), autopick)
 	if len(cmds) == 0 {
 		ctx.Fatalf("Failed to determine any appropriate command for %s", snippet)
 	}

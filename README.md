@@ -104,6 +104,26 @@ fzf:
 
 Feel free to customize, e.g. with [`bat`](https://github.com/sharkdp/bat) for the preview via `bat --color=always --style=plain {1}`.
 
+### Autopick
+
+You can set an `auto_pick` option in the configuration, to automatically pick the first command when using exec mode.
+It must be one of the following values:
+
+- `never`: the default value. snips will not automatically pick the first command.
+- `executable_shebang`: automatically pick the first command, if the file has a shebang _and_ the file is marked as executable. Does not work on Windows OS.
+- `shebang`: automatically pick the first command, if the file has a shebang.
+- `always`: always pick the first command. This can include user-defined runners.
+
+Setting the `--autopick/-a` flag to true will **always** beat the configured value, even `never`!
+
+```yaml
+sources: # omitted for brevity
+runners: # omitted for brevity
+auto_pick: "never" # this is the default
+```
+
+> **Tip:** Run `snips -pax` to only print the command that would be executed.
+
 ## Sources
 
 Optionally, you can put a `snips.yaml` in each directory defined under [`sources`](#configuration).
@@ -128,7 +148,8 @@ When invoked without additional options, `snips` will simply print the selected 
 Using the `--copy/-c` flag will copy the file content to your system clipboard.
 
 When invoked with the `--exec/-x` flag, it will try to run the file instead.
-`snips` displays one or more options on how to run the file, which you have to confirm manually.
+`snips` displays one or more options on how to run the file, which you have to confirm manually,
+unless you have the `auto_pick` configuration or the `--autopick/-a` flag.
 
 Run `snips -h` for more details and complimentary actions.
 
@@ -164,7 +185,7 @@ Flags:
   -e, --edit             Open the selected snippet with the editor defined by the EDITOR environment variable. Defaults to false.
       --config           Print snips config. Works with --locate/-l and --edit/-e.
   -r, --repeat           Repeat the last snippet that was selected. Works with --exec/-x, --print/p, --locate/-l and --edit/-e.
-  -a, --autopick         Automatically pick the first command option when using --exec/-x. Executables come first, then shebang, then runners. Defaults to false.
+  -a, --autopick         Automatically pick the first command option when using --exec/-x. Always shows the runner from shebang first, then user-defined runners. If false, 'auto_pick' from the config is used. Defaults to false.
   -S, --sources          Print all configured sources with their --source flag shorthand.
   -s, --source=SOURCE    Select a source by index from your global snips config file. You can also use -0 to -9.
   -v, --version          Print version information and quit

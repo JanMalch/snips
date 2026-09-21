@@ -68,7 +68,7 @@ type CLI struct {
 	Edit     bool `name:"edit" default:"false" short:"e" help:"Open the selected snippet with the editor defined by the EDITOR environment variable. Defaults to false."`
 	Config   bool `name:"config" default:"false" help:"Print snips config. Works with --locate/-l and --edit/-e."`
 	Repeat   bool `name:"repeat" default:"false" short:"r" help:"Repeat the last snippet that was selected. Works with --exec/-x, --print/p, --locate/-l and --edit/-e."`
-	Autopick bool `name:"autopick" default:"false" short:"a" help:"Automatically pick the first command option when using --exec/-x. Always shows the runner from shebang first, then user-defined runners. Defaults to false."`
+	Autopick bool `name:"autopick" default:"false" short:"a" help:"Automatically pick the first command option when using --exec/-x. Always shows the runner from shebang first, then user-defined runners. If false, 'auto_pick' from the config is used. Defaults to false."`
 	// Color never,always,auto
 	ListSources bool `name:"sources" short:"S" help:"Print all configured sources with their --source flag shorthand."`
 	Source      *int `name:"source" short:"s" help:"Select a source by index from your global snips config file. You can also use -0 to -9."`

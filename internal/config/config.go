@@ -12,6 +12,7 @@ import (
 var (
 	ErrNoSources          = errors.New("no sources defined")
 	ErrNoExtensionDefined = errors.New("no 'ext' or 'exts' defined for runner")
+	ErrInvalidAutopick    = errors.New("'auto_pick' must be one of 'never', 'executable_shebang', 'shebang', or 'always'.")
 )
 
 type SnipsFzfConfig struct {
@@ -42,11 +43,65 @@ func (r SnipsRunner) Matches(fileext string) bool {
 	return false
 }
 
+type Autopick int
+
+const (
+	AutopickNever Autopick = iota
+	AutopickExecutableShebang
+	AutopickShebang
+	AutopickAlways
+)
+
+var autopickName = map[Autopick]string{
+	AutopickNever:             "never",
+	AutopickExecutableShebang: "executable_shebang",
+	AutopickShebang:           "shebang",
+	AutopickAlways:            "always",
+}
+
+func (a Autopick) String() string {
+	return autopickName[a]
+}
+
+func (a Autopick) Accept(other Autopick) bool {
+	if other == AutopickNever {
+		return false
+	}
+	switch a {
+	case AutopickNever:
+		return false
+	case AutopickAlways:
+		// other is Executable, Shebang, or Always
+		return true
+	case AutopickExecutableShebang:
+		return other == AutopickExecutableShebang
+	case AutopickShebang:
+		return other == AutopickShebang
+	}
+	panic("Unknown Autopick type.")
+}
+
 type SnipsConfig struct {
 	Sources           []string       `yaml:"sources"`
 	IncludeSourceName bool           `yaml:"include_source_name"`
+	RawAutopick       string         `yaml:"auto_pick"`
 	Runners           []SnipsRunner  `yaml:"runners"`
 	Fzf               SnipsFzfConfig `yaml:"fzf"`
+}
+
+func (c SnipsConfig) Autopick() (Autopick, error) {
+	switch c.RawAutopick {
+	case autopickName[AutopickAlways]:
+		return AutopickAlways, nil
+	case autopickName[AutopickExecutableShebang]:
+		return AutopickExecutableShebang, nil
+	case autopickName[AutopickShebang]:
+		return AutopickShebang, nil
+	case autopickName[AutopickNever]:
+		return AutopickNever, nil
+	default:
+		return AutopickNever, ErrInvalidAutopick
+	}
 }
 
 // Returns the path of the config
@@ -83,6 +138,7 @@ func Load() (SnipsConfig, error) {
 
 	config := SnipsConfig{
 		IncludeSourceName: true,
+		RawAutopick:       AutopickNever.String(),
 		Fzf: SnipsFzfConfig{
 			Preview:      "cat {1}",
 			UseEnv:       true,
@@ -112,6 +168,9 @@ func Load() (SnipsConfig, error) {
 		if r.Ext == "" && len(r.Exts) == 0 {
 			return SnipsConfig{}, ErrNoExtensionDefined
 		}
+	}
+	if _, err := config.Autopick(); err != nil {
+		return SnipsConfig{}, err
 	}
 	return config, err
 }

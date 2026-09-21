@@ -64,7 +64,7 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 		snippet, err = readRepeat()
 		ctx.FatalIfErrorf(err)
 	} else {
-		snippet, err = core.FindSnippet(cli.Args.Snippet(), dirs, cfg.IncludeSourceName, cfg.Fzf)
+		snippet, err = core.FindSnippet(cli.Args.Snippet(), dirs, cfg.IncludeSourceName, cfg.Fzf, cli.Grep)
 		ctx.FatalIfErrorf(err)
 		ctx.FatalIfErrorf(storeRepeat(snippet))
 	}

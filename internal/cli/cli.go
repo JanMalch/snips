@@ -63,7 +63,7 @@ type CLI struct {
 	Locate bool   `name:"locate" default:"false" short:"l" help:"Only print the full absolute path of the selected snippet before exiting."`
 	Use    string `name:"use" short:"u" help:"Use the given working directory as the only source, or '-u.' for the current directory."`
 	// TODO
-	// Grep    bool   `name:"grep" default:"false" short:"g" help:"Grep on snippet contents instead. Requires ripgrep, grep or git."`
+	Grep bool `name:"grep" default:"false" short:"g" help:"Grep on snippet contents instead. Requires ripgrep, grep or git."`
 	// Typ     string `name:"type" short:"t" help:"Filter by a ripgrep file type. Requires ripgrep."`
 	Edit   bool `name:"edit" default:"false" short:"e" help:"Open the selected snippet with the editor defined by the EDITOR environment variable. Defaults to false."`
 	Config bool `name:"config" default:"false" help:"Print snips config. Works with --locate/-l and --edit/-e."`

@@ -132,7 +132,7 @@ When invoked with the `--exec/-x` flag, it will try to run the file instead.
 
 Run `snips -h` for more details and complimentary actions.
 
-> For ad-hoc usage, you can run `snips -w` to use the current working directory as a source.
+> For ad-hoc usage, you can run `snips -u.` to use the current working directory as a source.
 
 ### Help
 

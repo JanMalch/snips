@@ -1,3 +1,13 @@
+## [0.7.0](https://github.com/JanMalch/snips/tree/v0.7.0) - October 4, 2026
+
+**Full Changelog:** [`v0.6.0...v0.7.0`](https://github.com/JanMalch/snips/compare/v0.6.0...v0.7.0)
+
+| type | description | commit |
+|---|---|---|
+| feat | support locate for sources list | [`d3a4d026`](https://github.com/JanMalch/snips/commit/d3a4d0265e6e99bc19856985790876ac7f25c276) |
+
+
+
 ## [0.6.0](https://github.com/JanMalch/snips/tree/v0.6.0) - September 21, 2026
 
 **Full Changelog:** [`v0.5.0...v0.6.0`](https://github.com/JanMalch/snips/compare/v0.5.0...v0.6.0)

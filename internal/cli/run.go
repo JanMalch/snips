@@ -43,14 +43,18 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 
 	if cli.ListSources {
 		for i, dir := range dirs {
-			if i < 10 {
-				if len(dirs) < 10 {
-					fmt.Fprintf(ctx.Stdout, "-%d %s\n", i, dir)
-				} else {
-					fmt.Fprintf(ctx.Stdout, "  -%d %s\n", i, dir)
-				}
+			if cli.Locate {
+				fmt.Fprintf(ctx.Stdout, "%s\n", dir)
 			} else {
-				fmt.Fprintf(ctx.Stdout, "-s%d %s\n", i, dir)
+				if i < 10 {
+					if len(dirs) < 10 {
+						fmt.Fprintf(ctx.Stdout, "-%d %s\n", i, dir)
+					} else {
+						fmt.Fprintf(ctx.Stdout, "  -%d %s\n", i, dir)
+					}
+				} else {
+					fmt.Fprintf(ctx.Stdout, "-s%d %s\n", i, dir)
+				}
 			}
 		}
 		return

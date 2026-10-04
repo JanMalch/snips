@@ -70,7 +70,7 @@ type CLI struct {
 	Repeat   bool `name:"repeat" default:"false" short:"r" help:"Repeat the last snippet that was selected. Works with --exec/-x, --print/p, --locate/-l and --edit/-e."`
 	Autopick bool `name:"autopick" default:"false" short:"a" help:"Automatically pick the first command option when using --exec/-x. Always shows the runner from shebang first, then user-defined runners. If false, 'auto_pick' from the config is used. Defaults to false."`
 	// Color never,always,auto
-	ListSources bool `name:"sources" short:"S" help:"Print all configured sources with their --source flag shorthand."`
+	ListSources bool `name:"sources" short:"S" help:"Print all configured sources with their --source flag shorthand, unless --locate/-l is set to true."`
 	Source      *int `name:"source" short:"s" help:"Select a source by index from your global snips config file. You can also use -0 to -9."`
 	// TODO: there must be a better way, right?
 	Source0         bool        `short:"0" default:"false" hidden:""`

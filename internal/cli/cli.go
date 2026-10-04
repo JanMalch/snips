@@ -87,45 +87,51 @@ type CLI struct {
 	CheckForUpdates bool        `name:"updates" aliases:"up" default:"false" help:"Checks for updates for the snips CLI. Same as --up."`
 }
 
+func (c *CLI) SourceIndex() int {
+	if c.Source != nil {
+		return *c.Source
+	}
+	if c.Source0 {
+		return 0
+	}
+	if c.Source1 {
+		return 1
+	}
+	if c.Source2 {
+		return 2
+	}
+	if c.Source3 {
+		return 3
+	}
+	if c.Source4 {
+		return 4
+	}
+	if c.Source5 {
+		return 5
+	}
+	if c.Source6 {
+		return 6
+	}
+	if c.Source7 {
+		return 7
+	}
+	if c.Source8 {
+		return 8
+	}
+	if c.Source9 {
+		return 9
+	}
+	return -1
+}
+
 func (c *CLI) Sources(cfg config.SnipsConfig) []string {
 	if c.Use != "" {
 		return []string{path.Clean(c.Use)}
 	}
 
 	dirs := cfg.Sources
-	if c.Source != nil {
-		return []string{dirs[*c.Source]}
+	if srci := c.SourceIndex(); srci != -1 {
+		return []string{dirs[srci]}
 	}
-	if c.Source0 {
-		return dirs[0:1]
-	}
-	if c.Source1 {
-		return dirs[1:2]
-	}
-	if c.Source2 {
-		return dirs[2:3]
-	}
-	if c.Source3 {
-		return dirs[3:4]
-	}
-	if c.Source4 {
-		return dirs[4:5]
-	}
-	if c.Source5 {
-		return dirs[5:6]
-	}
-	if c.Source6 {
-		return dirs[6:7]
-	}
-	if c.Source7 {
-		return dirs[7:8]
-	}
-	if c.Source8 {
-		return dirs[8:9]
-	}
-	if c.Source9 {
-		return dirs[9:10]
-	}
-
 	return dirs
 }

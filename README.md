@@ -89,6 +89,9 @@ fzf:
   # shell command to preview the file.
   # Make sure you use {1} to get the absolute file to the path.
   preview: "cat {1}"
+  # Keep 100 fzf queries per source, or global if invoked without source parameter.
+  # Use CTRL+P/N to cycle through history. Set to 0 disable.
+  history_size: 100
   # shell command for the 'focus:transform-preview-label' bind.
   # Set to an empty string to disable.
   preview_label: "[[ -n {} ]] && printf \" %s \" {1}"

@@ -67,7 +67,12 @@ func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 		snippet, err = readRepeat()
 		ctx.FatalIfErrorf(err)
 	} else {
-		snippet, err = core.FindSnippet(cli.Args.Snippet(), dirs, cfg.IncludeSourceName, cfg.Fzf)
+		var historyFile string
+		if cfg.Fzf.HistorySize > 0 {
+			historyFile, err = config.FzfHistoryPath(cli.SourceIndex())
+			ctx.FatalIfErrorf(err)
+		}
+		snippet, err = core.FindSnippet(cli.Args.Snippet(), dirs, cfg.IncludeSourceName, cfg.Fzf, historyFile)
 		ctx.FatalIfErrorf(err)
 		ctx.FatalIfErrorf(storeRepeat(snippet))
 	}
@@ -149,12 +154,12 @@ func prompt(cmds []exe.CmdDef, print bool, cli *CLI, ctx *kong.Context) exe.CmdD
 	return cmds[cmdIdx]
 }
 
-func edit(path string) error {
+func edit(fzfhis string) error {
 	editor := os.Getenv("EDITOR")
 	if editor == "" {
 		return ErrNoEditor
 	}
-	cmd := exec.Command(editor, path)
+	cmd := exec.Command(editor, fzfhis)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

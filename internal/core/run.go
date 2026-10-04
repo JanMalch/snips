@@ -4,6 +4,7 @@ import (
 	"errors"
 	"path/filepath"
 	"snips/internal/config"
+	"strconv"
 	"strings"
 
 	fzf "github.com/junegunn/fzf/src"
@@ -19,7 +20,7 @@ var (
 	ErrNoFzfOutput    = errors.New("fzf returned no output")
 )
 
-func FindSnippet(query string, dirs []string, includeSourceName bool, cfg config.SnipsFzfConfig) (string, error) {
+func FindSnippet(query string, dirs []string, includeSourceName bool, cfg config.SnipsFzfConfig, historyFile string) (string, error) {
 	if len(dirs) == 0 {
 		return "", ErrNoSources
 	}
@@ -67,10 +68,10 @@ func FindSnippet(query string, dirs []string, includeSourceName bool, cfg config
 		close(inputChan)
 	}()
 	// TODO: use header
-	return runFzf("", inputChan, query, cfg)
+	return runFzf("", inputChan, query, cfg, historyFile)
 }
 
-func runFzf(header string, input chan string, query string, cfg config.SnipsFzfConfig) (string, error) {
+func runFzf(header string, input chan string, query string, cfg config.SnipsFzfConfig, historyFile string) (string, error) {
 	// TODO: handle channel skill issues.. is buffering the best here?
 	output := make(chan string, 1)
 	defer close(output)
@@ -97,6 +98,9 @@ func runFzf(header string, input chan string, query string, cfg config.SnipsFzfC
 	}
 	if query != "" {
 		opts = append(opts, "--query", query)
+	}
+	if historyFile != "" && cfg.HistorySize > 0 {
+		opts = append(opts, "--history", historyFile, "--history-size", strconv.Itoa(cfg.HistorySize))
 	}
 	options, err := fzf.ParseOptions(cfg.UseEnv, opts)
 	if err != nil {

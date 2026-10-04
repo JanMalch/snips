@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -20,6 +21,7 @@ type SnipsFzfConfig struct {
 	Preview      string `yaml:"preview"`
 	PreviewLabel string `yaml:"preview_label"`
 	ListLabel    string `yaml:"list_label"`
+	HistorySize  int    `yaml:"history_size"`
 }
 
 type SnipsRunner struct {
@@ -126,6 +128,20 @@ func HistoryPath() (string, error) {
 	return filepath.Join(filepath.Dir(path), ".snipshistory"), nil
 }
 
+// Returns the path where the file is stored, which keeps the fzf history.
+func FzfHistoryPath(srci int) (string, error) {
+	path, err := Path()
+	if err != nil {
+		return "", err
+	}
+	if srci >= 0 {
+		return filepath.Join(filepath.Dir(path), fmt.Sprintf(".%v%s", srci, ".fzfhistory")), nil
+	} else {
+		return filepath.Join(filepath.Dir(path), ".fzfhistory"), nil
+	}
+
+}
+
 func Load() (SnipsConfig, error) {
 	path, err := Path()
 	if err != nil {
@@ -144,6 +160,7 @@ func Load() (SnipsConfig, error) {
 			UseEnv:       true,
 			PreviewLabel: fzfOptPreviewLabel,
 			ListLabel:    fzfOptListLabel,
+			HistorySize:  100,
 		},
 	}
 	if err := yaml.Unmarshal(dat, &config); err != nil {

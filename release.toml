@@ -4,7 +4,7 @@
 branch = "main"
 
 [[update]]
-file = "cmd/cli/main.go"
+file = "internal/cli/parse.go"
 find = "const VERSION = "
 replace = "const VERSION = \"{{version}}\""
 

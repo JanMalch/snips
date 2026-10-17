@@ -18,7 +18,7 @@ var (
 	ErrNoEditor = errors.New("no EDITOR env var defined")
 )
 
-func Run(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
+func start(cli *CLI, ctx *kong.Context, cfg config.SnipsConfig) {
 	if cli.Autopick && !cli.Exec {
 		ctx.Fatalf("--autopick/-a only works with --exec/-x")
 	}

@@ -1,7 +1,6 @@
-package main
+package cli
 
 import (
-	"snips/internal/cli"
 	"snips/internal/config"
 
 	"github.com/alecthomas/kong"
@@ -9,8 +8,8 @@ import (
 
 const VERSION = "0.7.0"
 
-func main() {
-	var app cli.CLI
+func Run() {
+	var app CLI
 	ctx := kong.Parse(&app,
 		kong.Name("snips"),
 		kong.Description(`Usage: snips [flags] [<snippet>] [-- <snippet-args> ...]
@@ -35,11 +34,11 @@ Examples:
 		})
 
 	if app.CheckForUpdates {
-		ctx.FatalIfErrorf(cli.CheckForUpdate(VERSION))
+		ctx.FatalIfErrorf(CheckForUpdate(VERSION))
 		return
 	}
 
 	cfg, err := config.Load()
 	ctx.FatalIfErrorf(err)
-	cli.Run(&app, ctx, cfg)
+	start(&app, ctx, cfg)
 }

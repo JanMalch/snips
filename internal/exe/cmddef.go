@@ -2,12 +2,12 @@ package exe
 
 import (
 	"bufio"
+	"github.com/JanMalch/snips/internal/config"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
 	"slices"
-	"snips/internal/config"
 	"strings"
 )
 

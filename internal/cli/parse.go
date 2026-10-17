@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"snips/internal/config"
+	"github.com/JanMalch/snips/internal/config"
 
 	"github.com/alecthomas/kong"
 )

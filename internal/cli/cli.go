@@ -3,8 +3,8 @@ package cli
 import (
 	"errors"
 	"fmt"
+	"github.com/JanMalch/snips/internal/config"
 	"path"
-	"snips/internal/config"
 
 	"github.com/alecthomas/kong"
 )

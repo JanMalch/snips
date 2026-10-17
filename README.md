@@ -6,6 +6,14 @@ A simple CLI to help with snippets and scripts.
 
 ## Installation
 
+## Install with Go
+
+```bash
+go install github.com/JanMalch/snips@latest
+```
+
+## Download a binary 
+
 Download the standalone binary from the [releases](https://github.com/JanMalch/snips/releases) page,
 and put it somewhere it can be picked up as a global CLI.
 

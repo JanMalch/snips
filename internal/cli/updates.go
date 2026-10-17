@@ -34,6 +34,8 @@ func CheckForUpdate(v string) error {
 			lipgloss.NewStyle().Inline(true).Bold(true).Render("A new snips version is available!\n"),
 			fmt.Sprintf("%s -> %s", latestTag, release.GetTagName()),
 			lipgloss.NewStyle().Inline(true).Foreground(lipgloss.Color("12")).Render(url),
+			"\nOr when installed via go:",
+			"$ go install github.com/JanMalch/snips@latest",
 		),
 	))
 	return nil

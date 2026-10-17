@@ -1,6 +1,6 @@
 package main
 
-import "snips/internal/cli"
+import "github.com/JanMalch/snips/internal/cli"
 
 func main() {
 	cli.Run()

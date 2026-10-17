@@ -2,8 +2,8 @@ package core
 
 import (
 	"errors"
+	"github.com/JanMalch/snips/internal/config"
 	"path/filepath"
-	"snips/internal/config"
 	"strings"
 
 	fzf "github.com/junegunn/fzf/src"

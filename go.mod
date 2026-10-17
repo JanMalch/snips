@@ -1,4 +1,4 @@
-module snips
+module github.com/JanMalch/snips
 
 go 1.25.8
 

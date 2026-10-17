@@ -3,11 +3,11 @@ package cli
 import (
 	"errors"
 	"fmt"
+	"github.com/JanMalch/snips/internal/config"
+	"github.com/JanMalch/snips/internal/core"
+	"github.com/JanMalch/snips/internal/exe"
 	"os"
 	"os/exec"
-	"snips/internal/config"
-	"snips/internal/core"
-	"snips/internal/exe"
 
 	"charm.land/huh/v2"
 	"github.com/alecthomas/kong"

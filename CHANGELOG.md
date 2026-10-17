@@ -1,3 +1,11 @@
+## [0.7.1](https://github.com/JanMalch/snips/tree/v0.7.1) - October 17, 2026
+
+**Full Changelog:** [`v0.7.0...v0.7.1`](https://github.com/JanMalch/snips/compare/v0.7.0...v0.7.1)
+
+snips can now be installed via `go install`!
+
+
+
 ## [0.7.0](https://github.com/JanMalch/snips/tree/v0.7.0) - October 4, 2026
 
 **Full Changelog:** [`v0.6.0...v0.7.0`](https://github.com/JanMalch/snips/compare/v0.6.0...v0.7.0)

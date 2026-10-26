@@ -1,3 +1,13 @@
+## [0.8.0](https://github.com/JanMalch/snips/tree/v0.8.0) - October 26, 2026
+
+**Full Changelog:** [`v0.7.1...v0.8.0`](https://github.com/JanMalch/snips/compare/v0.7.1...v0.8.0)
+
+| type | description | commit |
+|---|---|---|
+| feat | support symlink sources | [`89987003`](https://github.com/JanMalch/snips/commit/899870038041fee1f50d681b11bdeafe35593f59) |
+
+
+
 ## [0.7.1](https://github.com/JanMalch/snips/tree/v0.7.1) - October 17, 2026
 
 **Full Changelog:** [`v0.7.0...v0.7.1`](https://github.com/JanMalch/snips/compare/v0.7.0...v0.7.1)

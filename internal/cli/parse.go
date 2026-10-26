@@ -6,7 +6,7 @@ import (
 	"github.com/alecthomas/kong"
 )
 
-const VERSION = "0.7.1"
+const VERSION = "0.8.0"
 
 func Run() {
 	var app CLI

@@ -2,9 +2,11 @@ package core
 
 import (
 	"errors"
-	"github.com/JanMalch/snips/internal/config"
+	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/JanMalch/snips/internal/config"
 
 	fzf "github.com/junegunn/fzf/src"
 )
@@ -24,12 +26,19 @@ func FindSnippet(query string, dirs []string, includeSourceName bool, cfg config
 		return "", ErrNoSources
 	}
 
+	var err error
 	matches := make([]string, 0)
 	useDirPrefix := includeSourceName && len(dirs) > 1
 
 	for _, dir := range dirs {
 
-		dir, err := filepath.Abs(dir)
+		if fi, err := os.Lstat(dir); err == nil && fi.Mode()&os.ModeSymlink != 0 {
+			dir, err = os.Readlink(dir)
+			if err != nil {
+				return "", err
+			}
+		}
+		dir, err = filepath.Abs(dir)
 		if err != nil {
 			return "", err
 		}
